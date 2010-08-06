@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008">
+	<fx:Metadata>[HostComponent("spark.components.TextInput")]</fx:Metadata>
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:RichEditableText ai:aa="2" color="#000000" columnCount="1" fontFamily="Calibri" fontSize="25" id="textDisplay" d:id="3" kerning="on" d:userLabel="PH: 7.8" flm:variant="1" whiteSpaceCollapse="preserve" x="0" y="0" width="73" heightInLines="1" editable="false" tabStops="S0 S50" alpha.disabled="0.4"/>
+	<s:transitions>
+		<s:Transition fromState="normal" toState="disabled" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{textDisplay}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+</s:Skin>

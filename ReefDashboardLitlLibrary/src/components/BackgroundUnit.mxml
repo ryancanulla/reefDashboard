@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:lib="assets.graphics.*" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009">
+	<s:states>
+		<s:State name="card"/>
+		<s:State name="channel"/>
+	</s:states>
+	<fx:DesignLayer d:id="2" d:userLabel="Layer 5">
+		<s:Rect height="166" id="rect2" includeIn="card" width="310" x="0" y="0">
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect height="135" id="rect1" includeIn="card" radiusX="11.0328" radiusY="11.0328" width="288" x="11" y="11">
+			<s:fill>
+				<s:SolidColor color="#53C8EA"/>
+			</s:fill>
+		</s:Rect>
+		<s:RichText ai:aa="2" color="#3B3B3B" columnCount="1" fontFamily="Myriad Pro" id="richtext2" d:id="3" includeIn="card" kerning="on" tabStops="S36 S72" text="ryancanulla.com" d:userLabel="ryancanulla.com" flm:variant="1" whiteSpaceCollapse="preserve" x="208" y="151"/>
+		<s:RichText ai:aa="2" color="#3B3B3B" columnCount="1" fontFamily="Myriad Pro" id="richtext1" d:id="4" includeIn="card" kerning="on" tabStops="S36" text="v1.002" d:userLabel="v1.002" flm:variant="2" whiteSpaceCollapse="preserve" x="20" y="151"/>
+		<s:Rect height="801" id="rect0" includeIn="channel" width="1280" x="0" y="0">
+			<s:fill>
+				<s:SolidColor/>
+			</s:fill>
+		</s:Rect>
+		<s:Rect height="692" id="rect3" includeIn="channel" radiusX="11.0328" radiusY="11.0328" width="1170" x="53" y="47">
+			<s:fill>
+				<s:SolidColor color="#53C8EA"/>
+			</s:fill>
+		</s:Rect>
+		<s:RichText ai:aa="2" color="#3B3B3B" columnCount="1" fontFamily="Myriad Pro" id="richtext0" d:id="3" includeIn="channel" kerning="on" tabStops="S0 S50 S100 S150 S200 S250" text="ryancanulla.com" d:userLabel="ryancanulla.com" flm:variant="1" whiteSpaceCollapse="preserve" x="934" y="752" fontSize="40"/>
+		<s:RichText ai:aa="2" color="#3B3B3B" columnCount="1" fontFamily="Myriad Pro" id="richtext3" d:id="4" includeIn="channel" kerning="on" tabStops="S0 S50 S100" text="v1.002" d:userLabel="v1.002" flm:variant="2" whiteSpaceCollapse="preserve" x="67" y="753" fontSize="40"/>
+	</fx:DesignLayer>
+	<s:transitions>
+		<s:Transition autoReverse="true" fromState="channel" toState="card">
+			<s:Parallel>
+				<s:Parallel target="{rect2}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{richtext2}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{rect1}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{richtext1}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{richtext0}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{rect0}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{rect3}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{richtext3}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+</s:Group>
