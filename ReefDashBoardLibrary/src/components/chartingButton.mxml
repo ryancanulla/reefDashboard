@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008" xmlns:lib="assets.graphics.catalystClipPaste76341729231497281.*">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Group ai:objID="6a27c7a0" x="0" y="0" includeIn="disabled,down,up" id="group1">
+		<s:Ellipse height="17" ai:objID="6a252a00" width="17" x="0" y="0">
+			<s:fill>
+				<s:SolidColor color="0xA6A6A6"/>
+			</s:fill>
+		</s:Ellipse>
+		<s:Path data="M 15.659 9.022 C 13.168 12.988 7.933 14.183 3.968 11.692 C 0.002 9.2 -1.193 3.965 1.299 0 L 15.659 9.022 Z" ai:objID="59a82ae0" winding="nonZero" x="0.002" y="3.952">
+			<s:fill>
+				<s:SolidColor color="0x707070"/>
+			</s:fill>
+		</s:Path>
+		<s:Path data="M 0 7.082 L 4.751 0 C 8.641 2.611 9.676 7.878 7.067 11.767 L 0 7.082 Z" ai:objID="59a9ae10" winding="nonZero" x="8.545" y="1.47">
+			<s:fill>
+				<s:SolidColor color="0x404040"/>
+			</s:fill>
+		</s:Path>
+	</s:Group>
+	<s:Group ai:objID="70668b80" x="0" y="0" includeIn="over" id="group2">
+		<s:Ellipse height="17" ai:objID="6cc4c360" width="17" x="0" y="0">
+			<s:fill>
+				<s:SolidColor color="0xFF4C3F"/>
+			</s:fill>
+		</s:Ellipse>
+		<s:Path data="M 15.659 9.022 C 13.168 12.988 7.933 14.183 3.968 11.692 C 0.002 9.2 -1.193 3.965 1.299 0 L 15.659 9.022 Z" ai:objID="6cc408c0" winding="nonZero" x="0.002" y="3.952">
+			<s:fill>
+				<s:SolidColor color="0xEEC01B"/>
+			</s:fill>
+		</s:Path>
+		<s:Path data="M 0 7.082 L 4.751 0 C 8.641 2.611 9.676 7.878 7.067 11.767 L 0 7.082 Z" ai:objID="6cc7bdf0" winding="nonZero" x="8.545" y="1.47">
+			<s:fill>
+				<s:SolidColor color="0x00C2F3"/>
+			</s:fill>
+		</s:Path>
+	</s:Group>
+	<s:transitions>
+		<s:Transition fromState="up" toState="over" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{group1}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{group2}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	<fx:Private>
+		<fc:Guide x="0"/>
+		<fc:Guide y="0"/>
+	</fx:Private>
+</s:Skin>

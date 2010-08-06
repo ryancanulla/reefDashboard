@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns="http://mate.asfusion.com/">
+	
+	<mx:Script>
+		<![CDATA[
+			import com.ryancanulla.apex.business.StatusManager;
+			import com.ryancanulla.apex.events.ApexEvent;
+		]]>
+	</mx:Script>
+	
+	<Debugger level="{Debugger.ALL}"/>
+	<EventHandlers type="{ApexEvent.GET_STATUS}" debug="false">
+		<HTTPServiceInvoker 
+					url="http://ryancanulla.com/tank/phpProxy.php"
+					resultFormat="e4x" 
+					debug="false"
+					>
+			<Request 
+				url="{event.statusURL}"
+				username="{event.settings.username}"
+				password="{event.settings.password}"
+				/>
+
+			<resultHandlers>
+				<MethodInvoker
+					generator="{StatusManager}"
+					method="onGetStatus"
+					arguments="{resultObject}" />
+			</resultHandlers>
+			<faultHandlers>
+				<MethodInvoker
+					generator="{StatusManager}"
+					method="onFault"
+					arguments="{fault}" />
+			</faultHandlers>
+		</HTTPServiceInvoker>
+	</EventHandlers>
+	<EventHandlers type="{ApexEvent.GET_DATALOG}">
+		<HTTPServiceInvoker
+					url="http://ryancanulla.com/tank/phpProxy.php" 
+					resultFormat="e4x" 
+					debug="false" >
+			<Request 
+				url="{event.dataURL}"
+				username="{event.settings.username}"
+				password="{event.settings.password}"
+				/>
+				
+			<resultHandlers>
+				<MethodInvoker
+					generator="{StatusManager}"
+					method="onGetDatalog"
+					arguments="{resultObject}" />
+			</resultHandlers>
+			<faultHandlers>
+				<MethodInvoker
+					generator="{StatusManager}"
+					method="onFault"
+					arguments="{fault}" />
+			</faultHandlers>
+		</HTTPServiceInvoker>
+	</EventHandlers>
+	
+	<EventHandlers type="{ApexEvent.GET_SETTINGS}" debug="false">
+		<MethodInvoker
+			generator="{StatusManager}"
+			method="getSettings"
+			/>
+	</EventHandlers>
+	
+	<EventHandlers type="{ApexEvent.UPDATE_SETTINGS}" debug="false">
+		<MethodInvoker
+			generator="{StatusManager}"
+			method="updateSettings"
+			arguments="{event.settings}"
+			/>
+	</EventHandlers>
+
+</EventMap>
