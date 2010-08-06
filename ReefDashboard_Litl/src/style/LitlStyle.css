@@ -1,0 +1,32 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+@font-face {
+	src:url("../assets/Calibri.ttf");
+	fontFamily: CalibriFont;
+	embedAsCFF: true;
+}
+
+@font-face {
+	src:url("../assets/CalibriBold.ttf");
+	fontFamily: CalibriBoldFont;
+	embedAsCFF: true;
+}
+
+.tempCard {
+	fontFamily:CalibriBoldFont;
+	font-size:125px;
+}
+.tempChannel {
+	fontFamily:CalibriBoldFont;
+	font-size:260px;
+}
+.probeCard {
+	fontFamily:CalibriFont;
+	font-size:25px;
+}
+.probeChannel {
+	fontFamily:CalibriFont;
+	font-size:100px;
+}

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:catalyst="components.*"
+		 width.card="{ViewSizes.CARD_WIDTH}" height.card="{ViewSizes.CARD_HEIGHT}"
+		 width.focus="{ViewSizes.FOCUS_WIDTH}" height.focus="{ViewSizes.FOCUS_HEIGHT}"
+		 width.channel="{ViewSizes.CHANNEL_WIDTH}" height.channel="{ViewSizes.CHANNEL_HEIGHT}"
+		 currentState="card" >
+
+	
+	<fx:Script>
+		<![CDATA[
+			import com.litl.sdk.enum.ViewSizes;
+			import com.litl.sdk.enum.View;
+			import com.litl.sdk.enum.ViewDetails;
+			import com.litl.sdk.service.LitlService;
+			import com.litl.sdk.message.InitializeMessage;
+			import com.litl.sdk.message.ViewChangeMessage;
+			import com.ryancanulla.apex.events.ApexEvent;
+			import com.ryancanulla.apex.vo.SettingsVO;
+			import com.ryancanulla.apex.vo.StatusVO;
+			
+			import mx.collections.ArrayCollection;
+			
+			// Apex Variables
+			[Bindable] private var _status:StatusVO;
+			[Bindable] public var _datalog:ArrayCollection;
+			[Bindable] private var _settings:SettingsVO;
+			
+			// litl Variables
+			private var service:LitlService;
+			private var _mode:String;
+			
+			/**
+			 * @private
+			 */
+			[Bindable(event="statusChange")]
+			public function get status():StatusVO{
+				return _status;
+			}
+			
+			/**
+			 * @private
+			 */
+			[Bindable(event="dataChange")]
+			public function get dataLog():ArrayCollection {
+				return _datalog;
+			}
+			
+			/**
+			 * @private
+			 */
+			public function set status(e:StatusVO):void{
+				_status = e as StatusVO;
+				dispatchEvent (new Event("statusChange"));
+			}
+			
+			/**
+			 * @private
+			 */
+			[Bindable(event="settingsChange")]
+			public function set settings(e:SettingsVO):void{
+				_settings = e as SettingsVO;
+				dispatchEvent (new Event("settingsChange"));
+			}
+			
+			/**
+			 * When the app initializes we dispatch a Mate event 
+			 * that will get the settings SharedObject
+			 */
+			public function init():void {
+				
+				// Dispatch the Mate event to get apex settings SharedObject
+				var getSettings:ApexEvent = new ApexEvent(ApexEvent.GET_SETTINGS);
+				dispatchEvent(getSettings);
+				
+				// Set the event listener that will update the display list
+				this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				
+				// Connect to the litl via proxy server
+				service = new LitlService(this);
+				service.connect("channelID", "Reef Dashboard", "1.002", false);
+				
+				// Add litl EventListeners
+				service.addEventListener(InitializeMessage.INITIALIZE, handleInitialize);
+				service.addEventListener(ViewChangeMessage.VIEW_CHANGE, handleViewChange);
+			}
+			
+			/**
+			 * @private
+			 */
+			private function onEnterFrame(e:Event):void{
+				if(_status){
+					temperature.text = _status.temp;					
+					ph.text =  "PH " + _status.ph;
+					amps.text = _status.amps + " AMPS";
+					
+					if(currentState=="channel") {
+						mainDaylight.selected = _status.mainLights;
+						mainActinic.selected = _status.mainActinic;
+						mainFans.selected = _status.fans;
+						mainWave.selected = _status.waves;
+						mainHeater.selected = _status.heater;		
+					}
+				}
+			}
+			
+			/**
+			 * Called when the device has sent all our saved properties, and is ready for us to begin.
+			 * @param e	The InitializeMessage instance.
+			 *
+			 */
+			private function handleInitialize(e:InitializeMessage):void {
+				_mode = "init";
+				service.channelTitle = "Reef Dashboard";
+				service.channelIcon = "http://litl.com/cute.ico";
+				service.channelItemCount = 1;
+				
+			}
+			
+			/**
+			 * Called when the device has changed views. From focus to card view, for instance.
+			 * @param e	The ViewChangeMessage instance.
+			 *
+			 */
+			private function handleViewChange(e:ViewChangeMessage):void {
+				// When the device sends us a ViewChangeMessage, we should change our content
+				// to match the new view.
+				var newView:String = e.view;
+				var newDetails:String = e.details;
+				var viewWidth:Number = e.width;
+				var viewHeight:Number = e.height;
+				setView(newView, newDetails, viewWidth, viewHeight);
+			}
+			
+			/**
+			 * Set the current view. Create the view if it doesn't exist, and switch to it.
+			 * @param newView		The view constant.
+			 * @param newDetails	The view details.
+			 * @see com.litl.sdk.enum.View
+			 */
+			public function setView(newView:String, newDetails:String, viewWidth:Number = 0, viewHeight:Number = 0):void {
+				trace("Setting view: " + newView + " " + newDetails + " (" + viewWidth + ", " + viewHeight + ")");
+				
+				switch (newView) {
+					default:
+						throw new Error("Unknown view state");
+						break;
+					
+					case View.CHANNEL:
+						_mode = "channel";
+						currentState="channel";
+						break;
+					case View.FOCUS:
+						_mode = "focus";
+						currentState="focus";
+						break;
+					case View.CARD:
+						_mode = "card";
+						currentState="card";
+						break;
+				}
+				
+				//For handling other variations of views -- HDMI, Selector, Offscreen, etc
+				//SEE the Simulator log for reference.
+				if (newDetails != ViewDetails.NORMAL) {
+					// Optionally do something to "disable" the channel here, when the channel is offscreen for instance.
+				}
+			}	
+		]]>
+	</fx:Script>
+	
+	<fx:Style source="style/LitlStyle.css" />
+
+	<s:states>
+		<s:State name="card"/>
+		<s:State name="channel"/>
+		<s:State name="focus"/>
+	</s:states>
+	
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>	
+
+	<fx:Declarations>
+		<s:SolidColor id="sc1" color="0xEEC01B" alpha=".3"/>
+		<s:SolidColorStroke id="s1" color="0xEEC01B" weight="2" />
+	</fx:Declarations>
+	
+	
+	
+	<catalyst:BackgroundUnit x="0" y="0"
+							 currentState.card="card"
+							 currentState.channel="channel"/>
+	
+	<s:RichEditableText id="temperature" editable="false"
+						styleName.card="tempCard"
+						styleName.channel="tempChannel"
+						text="18.2" 
+						x.card="42.55" y.card="11.9"
+						x.channel="175" y.channel="93" 
+						x.focus="100" y.focus="80" 
+						/>
+	
+	<s:RichEditableText id="ph" editable="false"
+						text="PH 0.2" 
+						styleName.card="probeCard"
+						styleName.channel="probeChannel"
+						x.card="45" y.card="120.2"
+						x.channel="277" y.channel="397"
+						x.focus="100" y.focus="100"/>
+	
+	<s:RichEditableText id="amps" editable="false"
+						text="00.6 AMPS" 
+						styleName.card="probeCard"
+						styleName.channel="probeChannel"
+						x.card="149.05" y.card="120.25"
+						x.channel="175" y.channel="573.3" x.focus="140" y.focus="100"/>
+	
+	<s:CheckBox id="mainDaylight" skinClass="components.mainDaylight" includeIn="channel"
+				scaleX="3" scaleY="3"
+				x="80" y="100"  
+				/>
+	<s:CheckBox id="mainActinic" skinClass="components.mainActinic" includeIn="channel"
+				scaleX="3" scaleY="3"
+				x="80" y="225"  
+				/>
+	<s:CheckBox id="mainFans" skinClass="components.fans" includeIn="channel"
+				scaleX="3" scaleY="3"
+				x="80" y="350"  
+				/>
+	<s:CheckBox id="mainWave" skinClass="components.mainPumps" includeIn="channel"
+				scaleX="3" scaleY="3"
+				x="80" y="475"  
+				/>
+	<s:CheckBox id="mainHeater" skinClass="components.heater" includeIn="channel"
+				scaleX="3" scaleY="3" 
+				x="80" y="600"/>
+			
+	<mx:LineChart id="tempChart" width="525" height="225" dataProvider="{_datalog}" 
+				  showDataTips="false"  x="663" y="97" color="0xFFFFFF" includeIn="channel">
+		<mx:horizontalAxis>	
+			<mx:DateTimeAxis
+				id="dateAxis" title="" dataUnits="hours" dataInterval="1"
+				displayLocalTime="true" labelUnits="hours" interval="1"/>
+		</mx:horizontalAxis>
+		<mx:verticalAxis>
+			<mx:LinearAxis 
+				id="verticalAxis" title="Temp" baseAtZero="false" 
+				interval=".5" autoAdjust="true"/>
+		</mx:verticalAxis>
+		<mx:series>
+			<mx:AreaSeries 
+				yField="temp" displayName="curve"
+				areaStroke="{s1}" areaFill="{sc1}"/>
+		</mx:series>
+	</mx:LineChart>
+	
+	<mx:LineChart id="phChart" width="525" dataProvider="{_datalog}" 
+				  showDataTips="false" height="150" x="663" y="363" color="0xFFFFFF" includeIn="channel">
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis id="dateAxis0" title=""
+				autoAdjust="false" labelUnits="minutes" />      
+		</mx:horizontalAxis>
+		<mx:verticalAxis>
+			<mx:LinearAxis id="verticalAxis0" title="PH" baseAtZero="false" padding="0" interval=".1" autoAdjust="true"/>
+		</mx:verticalAxis>
+		<mx:series>
+			<mx:AreaSeries yField="ph" displayName="curve" areaStroke="{s1}" areaFill="{sc1}"/>
+		</mx:series>
+	</mx:LineChart>
+	
+	<mx:LineChart id="ampChart" width="525" dataProvider="{_datalog}" 
+				  showDataTips="false" height="150" x="663" y="550" color="0xFFFFFF" includeIn="channel">
+		<mx:horizontalAxis>
+			<mx:DateTimeAxis id="dateAxis1"	title="" autoAdjust="false"	labelUnits="minutes"/>      
+		</mx:horizontalAxis>
+		<mx:verticalAxis>
+			<mx:LinearAxis id="verticalAxis1" title="Amps" baseAtZero="true" interval="2" autoAdjust="true"/>
+		</mx:verticalAxis>
+		<mx:series>
+			<mx:AreaSeries yField="amps" displayName="curve" areaStroke="{s1}" areaFill="{sc1}"/>
+		</mx:series>
+	</mx:LineChart>	
+</s:Group>
