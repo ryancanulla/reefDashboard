@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+         xmlns:s="library://ns.adobe.com/flex/spark"
+         width="100%" height="100%"
+         xmlns:local="components.*" xmlns:mx="library://ns.adobe.com/flex/mx">
+
+    <fx:Script>
+        <![CDATA[
+            import com.ryancanulla.apex.events.ApexEvent;
+            import com.ryancanulla.apex.vo.ConfigVO;
+            import com.ryancanulla.apex.vo.StatusVO;
+
+            import flash.events.MouseEvent;
+            import flash.events.TimerEvent;
+            import flash.utils.Timer;
+
+            import mx.collections.ArrayCollection;
+            import mx.managers.CursorManager;
+
+            //#################### VARS ####################
+            [Bindable] public var _status:StatusVO;
+            [Bindable] public var _datalog:ArrayCollection;
+            [Bindable] private var _settings:ConfigVO;
+            private var _mode:String;
+
+            //#################### GETTERS/SETTERS ####################
+            [Bindable(event="statusChange")]
+            public function get status():StatusVO{
+                return _status;
+            }
+            [Bindable(event="dataChange")]
+            public function get dataLog():ArrayCollection {
+                return _datalog;
+            }
+            public function set status(e:StatusVO):void{
+                _status = e as StatusVO;
+                dispatchEvent (new Event("statusChange"));
+            }
+            [Bindable(event="settingsChange")]
+            public function set settings(e:ConfigVO):void{
+                _settings = e as ConfigVO;
+                dispatchEvent (new Event("settingsChange"));
+            }
+            public function set dataLog(e:ArrayCollection):void{
+                _datalog = e as ArrayCollection;
+                dispatchEvent (new Event("dataChange"));
+            }
+
+            public function init():void {
+                //this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+
+                //var getSettings:ApexEvent = new ApexEvent(ApexEvent.GET_SETTINGS);
+                //dispatchEvent(getSettings);
+
+                temperature.textDisplay.text = null;
+                tankAmps.textDisplay.text = "AMPS";
+                tankPH.textDisplay.text = "PH";
+                footerCopy.textDisplay.text = "ryancanulla.com";
+                footerCopy.textDisplay.editable = false;
+                footerCopy.textDisplay.selectable = false;
+
+            }
+            private function refreshStatus(e:TimerEvent):void{
+                var getStatus:ApexEvent = new ApexEvent(ApexEvent.GET_STATUS);
+                dispatchEvent(getStatus);
+            }
+            private function refreshData(e:TimerEvent):void{
+                var getDatalog:ApexEvent = new ApexEvent(ApexEvent.GET_DATALOG);
+                dispatchEvent(getDatalog);
+            }
+            private function onEnterFrame(e:Event):void{
+                if(_status){
+                    tankAmps.textDisplay.maxChars = 25;
+                    tankAmps.textDisplay.width = 150;
+                    tankAmps.textDisplay.editable = false;
+                    tankAmps.textDisplay.text = _status.amps + " AMPS";
+
+                    tankPH.textDisplay.maxChars = 25;
+                    tankPH.textDisplay.width = 150;
+                    tankPH.textDisplay.editable = false
+                    tankPH.textDisplay.text =  "PH " + _status.ph;
+
+                    mainDaylight.selected = _status.mainLights;
+                    mainActinic.selected = _status.mainActinic;
+                    mainFans.selected = _status.fans;
+                    mainWave.selected = _status.waves;
+                    mainHeater.selected = _status.heater;
+
+                    temperature.textDisplay.text = _status.temp;
+                    temperature.textDisplay.editable = false;
+
+                }
+            }
+            public function onParseDate(s:String):Date {
+                // Get an array of Strings from the
+                // comma-separated String passed in.
+                var a:Array = s.split(",");
+
+                // Trace out year, month, and day values.
+                trace("y:" + a[0]);
+                trace("m:" + a[1]);
+                trace("d:" + a[2]);
+
+                // To create a Date object, you pass "YYYY,MM,DD",
+                // where MM is zero-based, to the Date() constructor.
+                var newDate:Date = new Date(a[0],a[1]-1,a[2]);
+                return newDate;
+            }
+            private function toggleChart():void{
+                if (currentState == "expanded"){
+                    currentState = "compact";
+                }
+                else if (currentState != "expanded"){
+                    currentState = "expanded";
+                }
+            }
+            private function toggleSettings():void{
+
+                if (currentState == "settings") {
+                    currentState = "compact";
+                }
+                else if (currentState != "settings"){
+                    currentState = "settings";
+                }
+            }
+
+            private function saveSettings(e:MouseEvent):void {
+
+                _settings.url = url.text;
+                _settings.port = port.text;
+                _settings.username = username.text;
+                _settings.password = password.text;
+                _settings.refresh = refresh.value;
+
+                var settingEvent:ApexEvent = new ApexEvent(ApexEvent.UPDATE_SETTINGS);
+                settingEvent.settings = _settings;
+                dispatchEvent(settingEvent);
+
+
+            }
+
+            private function onMinimize(evt:MouseEvent):void {
+                stage.nativeWindow.minimize();
+            }
+            private function onClose(evt:MouseEvent):void {
+                stage.nativeWindow.close();
+            }
+            private function onMove(evt:MouseEvent):void{
+                stage.nativeWindow.startMove();
+            }
+        ]]>
+    </fx:Script>
+
+    <s:states>
+        <s:State name="compact"/>
+        <s:State name="expanded"/>
+        <s:State name="settings"/>
+    </s:states>
+
+    <s:transitions>
+        <s:Transition fromState="*" toState="*">
+            <s:Parallel targets="{[closeButton, chartingButton, minimizeButton, configButton]}">
+                <s:Move duration="475" />
+            </s:Parallel>
+        </s:Transition>
+        <!--<s:Transition fromState="*" toState="expanded">
+            <s:Sequence targets="{[tempChart, phChart, ampChart]}">
+                <s:Fade alphaFrom="0" alphaTo="1" duration="700" />
+            </s:Sequence>
+        </s:Transition>
+        <s:Transition fromState="*" toState="settings">
+            <s:Sequence targets="{[url,username,password,port,urlLabel,usernameLabel,passwordLabel,portLabel,refreshLabel,refresh,settingsTitle,saveButton]}">
+                <s:Fade alphaFrom="0" alphaTo="1" duration="700" />
+            </s:Sequence>
+        </s:Transition>-->
+    </s:transitions>
+
+
+    <fx:Declarations>
+
+        <s:Fade id="chartsFade" duration="2000" alphaFrom="0" alphaTo="1"/>
+
+        <s:SolidColor id="sc1" color="0xEEC01B" alpha=".3"/>
+        <s:SolidColorStroke id="s1" color="0xEEC01B" weight="2" />
+    </fx:Declarations>
+
+    <s:layout><s:BasicLayout/></s:layout>
+
+    <local:controller id="controllerWrap" currentState.expanded="open" currentState.compact="closed" x.compact="1" y.compact="1" x.expanded="1" y.expanded="1" currentState.settings="open" x.settings="1" y.settings="1"/>
+    <local:temp id="temperature" x.compact="54" y.compact="72" x.expanded="54" y.expanded="72" x.settings="54" y.settings="72"/>
+    <local:ph id="tankPH" width="91" x.compact="60" y.compact="39" x.expanded="60" y.expanded="39" x.settings="60" y.settings="39"/>
+    <local:amps id="tankAmps" width="123"  x.compact="167" y.compact="39" x.expanded="167" y.expanded="39" x.settings="167" y.settings="39"/>
+
+    <s:CheckBox id="mainDaylight" skinClass="components.mainDaylight"
+                x.compact="27" y.compact="42"
+                x.expanded="27" y.expanded="42"
+                x.settings="27" y.settings="42"/>
+    <s:CheckBox id="mainActinic" skinClass="components.mainActinic"
+                x.compact="27" y.compact="86"
+                x.expanded="27" y.expanded="86"
+                x.settings="27" y.settings="86"/>
+    <s:CheckBox id="mainFans" skinClass="components.fans"
+                x.compact="26" y.compact="130"
+                x.expanded="26" y.expanded="130"
+                x.settings="26" y.settings="130"/>
+    <s:CheckBox id="mainWave" skinClass="components.mainPumps"
+                x.compact="27" y.compact="175"
+                x.expanded="27" y.expanded="175"
+                x.settings="27" y.settings="175"/>
+    <s:CheckBox id="mainHeater" skinClass="components.heater"
+                x.compact="27" y.compact="219"
+                x.expanded="27" y.expanded="219"
+                x.settings="27" y.settings="219"/>
+
+    <s:Button id="minimizeButton" skinClass="components.minimizeButton"
+              buttonMode="true" toolTip="Minimize"
+              x.compact="267" x.expanded="700" x.settings="700"
+              y="6" y.compact="6"/>
+    <s:Button id="closeButton"  skinClass="components.closeButton"
+              buttonMode="true" toolTip="Exit"
+              x.compact="292" x.expanded="724" x.settings="724"
+              y.compact="6" y.expanded="6" y.settings="6"/>
+
+
+    <s:Button id="chartingButton" skinClass="components.chartingButton" buttonMode="true"
+              toolTip.compact="Show Charts" toolTip.expanded="Hide Charts"
+              x.compact="291.7" x.expanded="731" y="320"
+               toolTip.settings="Hide Charts" x.settings="731"/>
+
+    <s:Button id="configButton" skinClass="components.configButton" buttonMode="true"
+              toolTip.compact="Show Settings" toolTip.expanded="Hide Settings"
+              x.compact="262" x.expanded="700" y="320"
+               toolTip.settings="Hide Settings" x.settings="700"/>
+
+    <local:footerCopy id="footerCopy" x.expanded="16" y.expanded="323" x.compact="16.4" y.compact="322.95" x.settings="16" y.settings="323"/>
+
+
+    <mx:LineChart id="tempChart" showEffect="{chartsFade}" added="{chartsFade}" remove="{chartsFade}" hideEffect="{chartsFade}" width="431" dataProvider="{}" showDataTips="false" height="113" x="306" y="46" color="0xFFFFFF" includeIn="expanded">
+
+        <mx:horizontalAxis>
+            <mx:DateTimeAxis
+                id="dateAxis" title="" dataUnits="hours" dataInterval="1"
+                displayLocalTime="true" labelUnits="hours" interval="1"/>
+        </mx:horizontalAxis>
+
+
+        <mx:verticalAxis>
+            <mx:LinearAxis
+                id="verticalAxis" title="Temp" baseAtZero="false"
+                interval=".5" autoAdjust="true"/>
+        </mx:verticalAxis>
+
+        <mx:series>
+            <mx:AreaSeries
+                yField="temp" displayName="curve"
+                areaStroke="{s1}" areaFill="{sc1}"/>
+        </mx:series>
+
+    </mx:LineChart>
+    <mx:LineChart id="phChart" width="430" dataProvider="{}" showDataTips="false" height="60" x="307" y="164" color="0xFFFFFF" includeIn="expanded">
+        <mx:horizontalAxis>
+            <mx:DateTimeAxis
+                id="dateAxis0"
+                title=""
+                autoAdjust="false"
+                labelUnits="minutes"
+                />
+        </mx:horizontalAxis>
+        <mx:verticalAxis>
+            <mx:LinearAxis
+                id="verticalAxis0"
+                title="PH"
+                baseAtZero="false"
+                padding="0"
+                interval=".1"
+                autoAdjust="true"/>
+        </mx:verticalAxis>
+        <mx:series>
+            <mx:AreaSeries
+                yField="ph"
+                displayName="curve"
+                areaStroke="{s1}"
+                areaFill="{sc1}"
+                />
+        </mx:series>
+
+    </mx:LineChart>
+    <mx:LineChart id="ampChart" width="431" dataProvider="{}" showDataTips="false" height="58" x="306" y="231" color="0xFFFFFF" includeIn="expanded">
+        <mx:horizontalAxis>
+        <mx:DateTimeAxis
+                id="dateAxis1"
+                title=""
+                autoAdjust="false"
+                labelUnits="minutes"
+                />
+        </mx:horizontalAxis>
+        <mx:verticalAxis>
+            <mx:LinearAxis
+                id="verticalAxis1"
+                title="Amps"
+                baseAtZero="true"
+                interval="2"
+                autoAdjust="true"/>
+        </mx:verticalAxis>
+        <mx:series>
+            <mx:AreaSeries
+                yField="amps"
+                displayName="curve"
+                areaStroke="{s1}"
+                areaFill="{sc1}"
+                />
+        </mx:series>
+
+    </mx:LineChart>
+
+
+
+    <s:RichText includeIn="settings" x="380" y="50" text="Reef Dashboard Settings" fontSize="20" id="settingsTitle"/>
+    <s:HSlider x="650" y="150" includeIn="expanded,settings" visible="false" includeInLayout="false" />
+    <s:RichText id="urlLabel" includeIn="settings" x="396" y="99" text="url:" />
+    <s:RichText id="usernameLabel" includeIn="settings" x="357" y="172" text="username:" />
+    <s:RichText id="passwordLabel" includeIn="settings" x="358" y="210" text="password:" />
+    <s:RichText id="portLabel" includeIn="settings" x="389" y="136" text="port:" />
+
+    <s:TextInput id="url" text="{}"
+                 includeIn="settings" width="226"
+                 x="427" y="93" />
+    <s:TextInput id="port" text="{}"
+                 x="427" y="129"
+                 width="108" includeIn="settings" />
+    <s:TextInput id="username" text="{}"
+                 x="427" y="166"
+                 width="188" includeIn="settings"  />
+    <s:TextInput id="password" text="{}"
+                 x="427" y="203" width="188"
+                 includeIn="settings"  displayAsPassword="true"/>
+
+  <!--  <s:Button includeIn="settings" x="640" y="257" label="Save" id="saveButton" click=""/>
+    <s:HSlider id="refresh" value="{}"
+        includeIn="settings" x="427" y="247" snapInterval=".25"
+        width="154" minimum="0" maximum="10" liveDragging="true"/>-->
+    <s:RichText includeIn="settings" x="342" y="247" text="refresh (min):" id="refreshLabel"/>
+
+</s:Group>

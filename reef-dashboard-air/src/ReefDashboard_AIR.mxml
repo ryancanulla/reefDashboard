@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+                       xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:mx="library://ns.adobe.com/flex/halo"
+                       xmlns:maps="com.ryancanulla.apex.maps.*"
+                       xmlns:injectors="com.ryancanulla.apex.air.injectors.*"
+                       xmlns:views="com.ryancanulla.apex.air.views.*"
+                       initialize="init()" backgroundAlpha="0"
+                       minWidth="1024" minHeight="768" showStatusBar="false">
+    <fx:Script>
+        <![CDATA[
+            import air.update.ApplicationUpdaterUI;
+            import air.update.events.UpdateEvent;
+            import flash.events.ErrorEvent;
+            import mx.controls.Alert;
+            import mx.managers.CursorManager;
+
+            // Instantiate the updater
+            private var appUpdater:ApplicationUpdaterUI = new ApplicationUpdaterUI();
+
+            private function init():void {
+
+                // The code below is a hack to work around a bug in the framework so that CMD-Q still works on MacOS
+                // This is a temporary fix until the framework is updated
+                // See http://www.adobe.com/cfusion/webforums/forum/messageview.cfm?forumid=72&catid=670&threadid=1373568
+                NativeApplication.nativeApplication.addEventListener( Event.EXITING,
+                    function(e:Event):void {
+                        var opened:Array = NativeApplication.nativeApplication.openedWindows;
+                        for (var i:int = 0; i < opened.length; i ++) {
+                            opened[i].close();
+                        }
+                    });
+
+                // Configuration stuff - see update framework docs for more details
+                appUpdater.updateURL = "http://ryancanulla.com/tank/dashboard/update.xml"; // Server-side XML file describing update
+                appUpdater.isCheckForUpdateVisible = false; // We won't ask permission to check for an update
+                appUpdater.addEventListener(UpdateEvent.INITIALIZED, onUpdate); // Once initialized, run onUpdate
+                appUpdater.addEventListener(ErrorEvent.ERROR, onError); // If something goes wrong, run onError
+                appUpdater.initialize(); // Initialize the update framework
+            }
+
+            private function onError(event:ErrorEvent):void {
+                Alert.show(event.toString());
+            }
+
+            private function onUpdate(event:UpdateEvent):void {
+                appUpdater.checkNow(); // Go check for an update now
+            }
+
+        ]]>
+    </fx:Script>
+    <fx:Declarations>
+    </fx:Declarations>
+
+   <views:MainAirContainer x="0" y="0" />
+</s:WindowedApplication>
