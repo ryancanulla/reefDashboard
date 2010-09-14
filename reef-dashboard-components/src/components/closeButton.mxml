@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008" xmlns:fc="http://ns.adobe.com/flashcatalyst/2009" xmlns:ATE="http://ns.adobe.com/ate/2009" xmlns:lib="assets.graphics.catalystClipPaste236006041090656225.*" xmlns:lib1="assets.graphics.catalystClipPaste5937486598576180247.*">
+	<fx:Metadata>[HostComponent("spark.components.Button")]</fx:Metadata>
+	<s:states>
+		<s:State name="up"/>
+		<s:State name="over"/>
+		<s:State name="down"/>
+		<s:State name="disabled"/>
+	</s:states>
+	<s:Ellipse height="12.3174" rotation="1.46225" width="19.058" x="0.159" y="-0.24" includeIn="up" id="ellipse4">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Path data="M 18.036 5.949 C 17.955 9.105 13.853 11.56 8.873 11.433 C 3.894 11.307 -0.079 8.645 0.001 5.489 C 0.082 2.333 4.184 -0.122 9.164 0.005 C 14.144 0.131 18.116 2.793 18.036 5.949 Z" d:id="3" winding="nonZero" x="0.535" y="0.472" includeIn="up" id="path4">
+		<s:fill>
+			<s:RadialGradient rotation="5.00693" scaleX="14.8699" scaleY="10.7062" x="9.0177" y="5.71851">
+				<s:GradientEntry color="0xC61010" ratio="0"/>
+				<s:GradientEntry color="0xA81010" ratio="0.840491"/>
+				<s:GradientEntry color="0x7C1010" ratio="1"/>
+			</s:RadialGradient>
+		</s:fill>
+	</s:Path>
+	<s:Ellipse height="12.3174" rotation="1.46225" width="19.058" x="0.159" y="-0.24" id="ellipse0" includeIn="over">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Path data="M 18.036 5.949 C 17.955 9.105 13.853 11.56 8.873 11.433 C 3.894 11.307 -0.079 8.645 0.001 5.489 C 0.082 2.333 4.184 -0.122 9.164 0.005 C 14.144 0.131 18.116 2.793 18.036 5.949 Z" d:id="3" winding="nonZero" x="0.535" y="0.472" id="path0" includeIn="over" alpha="0.8">
+		<s:fill>
+			<s:RadialGradient rotation="5.00693" scaleX="14.8699" scaleY="10.7062" x="9.0177" y="5.71851">
+				<s:GradientEntry color="0xC61010" ratio="0"/>
+				<s:GradientEntry color="0xA81010" ratio="0.840491"/>
+				<s:GradientEntry color="0x7C1010" ratio="1"/>
+			</s:RadialGradient>
+		</s:fill>
+	</s:Path>
+	<s:Ellipse height="12.3174" rotation="1.46225" width="19.058" x="0.159" y="-0.24" id="ellipse2" includeIn="down">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Path data="M 18.036 5.949 C 17.955 9.105 13.853 11.56 8.873 11.433 C 3.894 11.307 -0.079 8.645 0.001 5.489 C 0.082 2.333 4.184 -0.122 9.164 0.005 C 14.144 0.131 18.116 2.793 18.036 5.949 Z" d:id="3" winding="nonZero" x="0.535" y="0.472" id="path2" includeIn="down">
+		<s:fill>
+			<s:RadialGradient rotation="5.00693" scaleX="14.8699" scaleY="10.7062" x="9.0177" y="5.71851">
+				<s:GradientEntry color="0xC61010" ratio="0"/>
+				<s:GradientEntry color="0xA81010" ratio="0.840491"/>
+				<s:GradientEntry color="0x7C1010" ratio="1"/>
+			</s:RadialGradient>
+		</s:fill>
+	</s:Path>
+	<s:Ellipse height="12.3174" rotation="1.46225" width="19.058" x="0.159" y="-0.24" id="ellipse1" includeIn="disabled">
+		<s:fill>
+			<s:SolidColor/>
+		</s:fill>
+	</s:Ellipse>
+	<s:Path data="M 18.036 5.949 C 17.955 9.105 13.853 11.56 8.873 11.433 C 3.894 11.307 -0.079 8.645 0.001 5.489 C 0.082 2.333 4.184 -0.122 9.164 0.005 C 14.144 0.131 18.116 2.793 18.036 5.949 Z" d:id="3" winding="nonZero" x="0.535" y="0.472" id="path1" includeIn="disabled">
+		<s:fill>
+			<s:RadialGradient rotation="5.00693" scaleX="14.8699" scaleY="10.7062" x="9.0177" y="5.71851">
+				<s:GradientEntry color="0xC61010" ratio="0"/>
+				<s:GradientEntry color="0xA81010" ratio="0.840491"/>
+				<s:GradientEntry color="0x7C1010" ratio="1"/>
+			</s:RadialGradient>
+		</s:fill>
+	</s:Path>
+	<s:transitions>
+		<s:Transition fromState="up" toState="over" autoReverse="true">
+		</s:Transition>
+		<s:Transition fromState="disabled" toState="up" autoReverse="true">
+			<s:Parallel>
+				<s:Parallel target="{ellipse4}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{path4}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{ellipse1}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+				<s:Parallel target="{path1}">
+					<s:Fade duration="0"/>
+				</s:Parallel>
+			</s:Parallel>
+		</s:Transition>
+	</s:transitions>
+	<fx:Private>
+		<fc:Guide x="0"/>
+		<fc:Guide y="0"/>
+	</fx:Private>
+</s:Skin>

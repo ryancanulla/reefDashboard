@@ -1,0 +1,56 @@
+<s:Group xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:ai="http://ns.adobe.com/ai/2009" xmlns:d="http://ns.adobe.com/fxg/2008/dt" xmlns:flm="http://ns.adobe.com/flame/2008" xmlns:ATE="http://ns.adobe.com/ate/2009">
+	<fx:Private>
+		<ai:PrivateElement d:ref="#1">
+			<ai:SaveOptions>
+				<ai:Dict data="I versionKey 2 B writeImages 1 B downsampleLinkedImages 1 I preserveFilterPolicy 3 B includeSymbol 0 I preserveGradientPolicy 4 B aiEditCap 1 B includeXMP 0 B includeObjectOutsideArtboard 0 I expandBlendsOption 4 I preserveTextPolicy 4 I rasterizeResolution 72 "/>
+			</ai:SaveOptions>
+			<ai:DocData base="catalystClipPaste4140324413081831030.assets/images" globalOffsetH="55.625" globalOffsetV="1712.861" rulerCanvasDiffH="750.5" rulerCanvasDiffV="-749.5">
+				<ai:DocRasterSettings>
+					<ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+				</ai:DocRasterSettings>
+			</ai:DocData>
+			<ai:AutoGenImageList>
+				<ai:Dict/>
+			</ai:AutoGenImageList>
+		</ai:PrivateElement>
+		<ai:PrivateElement flm:hashcode="5C78E8F6E644E7786A3A111280D8A26E" d:ref="#2">
+			<ai:LayerOptions color="5 257 79.31 257"/>
+		</ai:PrivateElement>
+		<ai:PrivateElement d:ref="#1">
+			<ai:SaveOptions>
+				<ai:Dict data="I versionKey 2 B writeImages 1 B downsampleLinkedImages 1 I preserveFilterPolicy 3 B includeSymbol 0 I preserveGradientPolicy 4 B aiEditCap 1 B includeXMP 0 B includeObjectOutsideArtboard 0 I expandBlendsOption 4 I preserveTextPolicy 4 I rasterizeResolution 72 "/>
+			</ai:SaveOptions>
+			<ai:DocData base="catalystClipPaste8550445373958805763.assets/images" globalOffsetH="-491.932" globalOffsetV="1048.334" rulerCanvasDiffH="750.5" rulerCanvasDiffV="-749.5">
+				<ai:DocRasterSettings>
+					<ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+				</ai:DocRasterSettings>
+			</ai:DocData>
+			<ai:AutoGenImageList>
+				<ai:Dict/>
+			</ai:AutoGenImageList>
+		</ai:PrivateElement>
+		<ai:PrivateElement flm:hashcode="B518CE9818D9BF90CACFB26BBD295620" d:ref="#2">
+			<ai:LayerOptions color="5 257 79.31 257"/>
+		</ai:PrivateElement>
+		<ai:PrivateElement d:ref="#1">
+			<ai:SaveOptions>
+				<ai:Dict data="I versionKey 2 B writeImages 1 B downsampleLinkedImages 1 I preserveFilterPolicy 3 B includeSymbol 0 I preserveGradientPolicy 4 B aiEditCap 1 B includeXMP 0 B includeObjectOutsideArtboard 0 I expandBlendsOption 4 I preserveTextPolicy 4 I rasterizeResolution 72 "/>
+			</ai:SaveOptions>
+			<ai:DocData base="catalystClipPaste4338633431318849124.assets/images" globalOffsetH="1079.853" globalOffsetV="717.178" rulerCanvasDiffH="750.5" rulerCanvasDiffV="-749.5">
+				<ai:DocRasterSettings>
+					<ai:Dict data="I colr 4 I dpi. 72 B alis 0 B spot 1 B mask 0 R padd 36 "/>
+				</ai:DocRasterSettings>
+			</ai:DocData>
+			<ai:AutoGenImageList>
+				<ai:Dict/>
+			</ai:AutoGenImageList>
+		</ai:PrivateElement>
+		<ai:PrivateElement flm:hashcode="4E4C3F23542764448BCEB78E1F5DCA6B" d:ref="#2">
+			<ai:LayerOptions color="5 257 79.31 257"/>
+		</ai:PrivateElement>
+		<d:FontMap>
+			<d:Map fontFamily="Calibri Bold" postScriptName="Calibri-Bold"/>
+			<d:Map fontFamily="Calibri" postScriptName="Calibri"/>
+		</d:FontMap>
+	</fx:Private>
+</s:Group>
