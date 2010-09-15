@@ -1,9 +1,9 @@
 package com.ryancanulla.apex.model
 {
-    import com.asfusion.mate.core.GlobalDispatcher;
+    //import com.asfusion.mate.core.GlobalDispatcher;
     import com.ryancanulla.apex.events.ApexEvent;
     import com.ryancanulla.apex.vo.ConfigVO;
-    import com.ryancanulla.apex.vo.StatusVO;
+    import com.ryancanulla.apex.vo.CurrentStatusVO;
 
     import flash.events.TimerEvent;
     import flash.net.SharedObject;
@@ -14,12 +14,12 @@ package com.ryancanulla.apex.model
     import mx.managers.CursorManager;
     import mx.rpc.Fault;
 
-    public class StatusManager extends GlobalDispatcher
+    public class StatusManager
     {
 
 //#################### VARS ####################
         [Bindable]
-        public var _status:StatusVO = new StatusVO();
+        public var _status:CurrentStatusVO = new CurrentStatusVO();
         [Bindable]
         public var _datalog:ArrayCollection = new ArrayCollection();
         [Bindable]
@@ -29,7 +29,7 @@ package com.ryancanulla.apex.model
 
 //#################### GETTERS/SETTERS ####################
         [Bindable(event="statusChange")]
-        public function get status():StatusVO {
+        public function get status():CurrentStatusVO {
             return _status;
         }
 
@@ -103,7 +103,7 @@ package com.ryancanulla.apex.model
             _xmlObject = e..record;
 
             for (var i:uint = 0; i < _xmlObject.length(); i++) {
-                var _logStatus:StatusVO = new StatusVO();
+                var _logStatus:CurrentStatusVO = new CurrentStatusVO();
 
                 _logStatus.date = new Date(_xmlObject[i]..date.toString());
 
@@ -179,7 +179,7 @@ package com.ryancanulla.apex.model
         }
 
         private function refresh(e:TimerEvent = null):void {
-            var getStatus:ApexEvent = new ApexEvent(ApexEvent.GET_STATUS);
+            var getStatus:ApexEvent = new ApexEvent(ApexEvent.GET_DATALOG);
             getStatus.settings = _settings;
             getStatus.statusURL = _settings.url + ":" + _settings.port + "/cgi-bin/status.xml";
             dispatchEvent(getStatus);

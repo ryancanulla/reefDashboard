@@ -5,5 +5,5 @@
 		<s:State name="normal"/>
 		<s:State name="disabled"/>
 	</s:states>
-	<s:RichEditableText x="0" y="0" color="#000000" fontFamily="Calibri Bold" fontSize="130" tabStops="S0 S50" text="(Text)" height="109" width="236" heightInLines="1" id="textDisplay"/>
+	<s:RichEditableText x="0" y="0" color="#000000" fontFamily="Calibri Bold" fontSize="130" tabStops="S0 S50" text="(Text)" height="109" width="236" heightInLines="1" id="textDisplay" mouseEnabled.normal="true" tabStops.normal="S0 S50 S100 S150 S200" editable.normal="false"/>
 </s:Skin>

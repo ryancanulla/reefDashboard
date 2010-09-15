@@ -7,8 +7,10 @@
     <fx:Script>
         <![CDATA[
             import com.ryancanulla.apex.air.controller.ApexAirController;
+            import com.ryancanulla.apex.model.ApexModel;
 
             private var controller:ApexAirController;
+            private var model:ApexModel;
             private function init():void {
                 controller = new ApexAirController(this);
             }
@@ -37,11 +39,11 @@
             </s:Parallel>
         </s:Transition>
 
-        <s:Transition fromState="*" toState="expanded">
+        <!--<s:Transition fromState="*" toState="expanded">
             <s:Sequence targets="{[tempChart, phChart, ampChart]}">
                 <s:Fade alphaFrom="0" alphaTo="1" duration="700" />
             </s:Sequence>
-        </s:Transition>
+        </s:Transition>-->
 
         <s:Transition fromState="*" toState="settings">
             <s:Sequence targets="{[url,username,password,port,urlLabel,usernameLabel,passwordLabel,portLabel,refreshLabel,refresh,settingsTitle,saveButton]}">
@@ -65,8 +67,18 @@
         />
 
     <local:temp id="temperature" x.compact="54" y.compact="72" x.expanded="54" y.expanded="72" x.settings="54" y.settings="72"/>
-    <local:ph id="tankPH" width="91" x.compact="60" y.compact="39" x.expanded="60" y.expanded="39" x.settings="60" y.settings="39"/>
-    <local:amps id="tankAmps" width="123"  x.compact="167" y.compact="39" x.expanded="167" y.expanded="39" x.settings="167" y.settings="39"/>
+
+    <local:ph
+        id="ph"
+        x.compact="60" y.compact="39"
+        x.expanded="60" y.expanded="39"
+        x.settings="60" y.settings="39"/>
+
+    <local:amps
+        id="amps"
+        x.compact="167" y.compact="39"
+        x.expanded="167" y.expanded="39"
+        x.settings="167" y.settings="39"/>
 
     <s:CheckBox id="mainDaylight" skinClass="components.mainDaylight"
                 x.compact="27" y.compact="42"
@@ -112,7 +124,13 @@
     <local:footerCopy id="footerCopy" x.expanded="16" y.expanded="323" x.compact="16.4" y.compact="322.95" x.settings="16" y.settings="323"/>
 
 
-    <mx:LineChart id="tempChart" showEffect="{chartsFade}" added="{chartsFade}" remove="{chartsFade}" hideEffect="{chartsFade}" width="431" dataProvider="{}" showDataTips="false" height="113" x="306" y="46" color="0xFFFFFF" includeIn="expanded">
+    <!--<mx:LineChart visible="false"
+        id="tempChart"
+        showEffect="{chartsFade}"
+        added="{chartsFade}"
+        remove="{chartsFade}"
+        hideEffect="{chartsFade}"
+        width="431" dataProvider="{}" showDataTips="false" height="113" x="306" y="46" color="0xFFFFFF" includeIn="expanded">
 
         <mx:horizontalAxis>
             <mx:DateTimeAxis
@@ -188,7 +206,7 @@
                 />
         </mx:series>
 
-    </mx:LineChart>
+    </mx:LineChart>-->
 
 
 

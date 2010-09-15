@@ -1,6 +1,8 @@
 package com.ryancanulla.apex.model.service
 {
+    import com.ryancanulla.apex.events.ApexEvent;
     import com.ryancanulla.apex.model.ConfigurationModel;
+    import com.ryancanulla.apex.vo.CurrentStatusVO;
 
     import flash.events.Event;
     import flash.events.EventDispatcher;
@@ -17,8 +19,11 @@ package com.ryancanulla.apex.model.service
         private var config:ConfigurationModel = ConfigurationModel.getInstance();
         private static const PROXY_SERVER:String = "http://ryancanulla.com/tank/phpProxy.php";
         private var _status:ArrayCollection;
+        private var _currentStatus:CurrentStatusVO;
 
         public function ApexService(enforcer:SingletonEnforcer) {
+            _currentStatus = new CurrentStatusVO();
+            getTankStatus();
         }
 
         public static function getInstance():ApexService {
@@ -33,7 +38,7 @@ package com.ryancanulla.apex.model.service
             var loader:URLLoader = new URLLoader();
             var vars:URLVariables = new URLVariables();
 
-            vars.url = config.userSettings.url + ":" + config.userSettings.port + "/status.sht";
+            vars.url = config.userSettings.url + ":" + config.userSettings.port + "/cgi-bin/status.xml";
             vars.username = config.userSettings.username;
             vars.password = config.userSettings.password;
 
@@ -45,8 +50,40 @@ package com.ryancanulla.apex.model.service
         }
 
         private function handleTankStatusUpdate(e:Event):void {
-            _status = e as ArrayCollection;
-            dispatchEvent(new Event("statusUpdated"));
+            var xml:XML = new XML(e.currentTarget.data);
+            var probes:XMLList = new XMLList(xml..probe);
+            var outlets:XMLList = new XMLList(xml..outlet);
+
+            for (var i:uint = 0; i < probes.length(); i++) {
+                if (probes[i].name == "Temp") {
+                    _currentStatus.temp = probes[i].value;
+                }
+                else if (probes[i].name == "pH") {
+                    _currentStatus.ph = probes[i].value;
+                }
+                else if (probes[i].name == "Amp_3") {
+                    _currentStatus.amps = probes[i].value;
+                }
+            }
+
+            for (var j:uint = 0; j < outlets.length(); j++) {
+                if (outlets[j].name == "Main10K") {
+                    _currentStatus.mainLights = outletState(outlets[j].state);
+                }
+                else if (outlets[j].name == "Main20K") {
+                    _currentStatus.mainActinic = outletState(outlets[j].state);
+                }
+                else if (outlets[j].name == "Fans") {
+                    _currentStatus.fans = outletState(outlets[j].state);
+                }
+                else if (outlets[j].name == "Korilia4") {
+                    _currentStatus.waves = outletState(outlets[j].state);
+                }
+                else if (outlets[j].name == "Heater") {
+                    _currentStatus.heater = outletState(outlets[j].state);
+                }
+            }
+            dispatchEvent(new ApexEvent(ApexEvent.STATUS_UPDATED));
         }
 
         private function changeTankStatus():void {
@@ -66,6 +103,24 @@ package com.ryancanulla.apex.model.service
             loader.load(request);
         }
 
+        private function outletState(e:String):Boolean {
+            switch (e) {
+                case "ON":
+                    return true;
+                    break;
+                case "AON":
+                    return true;
+                    break;
+                case "OFF":
+                    return false;
+                    break;
+                case "AOF":
+                    return false;
+                    break;
+            }
+            return true;
+        }
+
         public function get status():ArrayCollection {
             return _status;
         }
@@ -74,6 +129,9 @@ package com.ryancanulla.apex.model.service
             _status = value;
         }
 
+        public function get currentStatus():CurrentStatusVO {
+            return _currentStatus;
+        }
     }
 }
 

@@ -5,9 +5,9 @@
 		<s:State name="normal"/>
 		<s:State name="disabled"/>
 	</s:states>
-	<s:RichEditableText x="0" y="0" color="#333333" fontFamily="Calibri" fontSize="25" tabStops="S0 S50" text="(Text)" width="36" heightInLines="1" id="textDisplay" height.normal="25" width.normal="50" color.normal="#000000"/>
+	<s:RichEditableText color="#333333" color.normal="#000000" fontFamily="Calibri" fontSize="25" height.normal="25" heightInLines="1" id="textDisplay" tabStops="S0 S50" text="(Text)" width="36" width.normal="88" x="0" y="0"/>
 	<s:transitions>
-		<s:Transition fromState="normal" toState="disabled" autoReverse="true">
+		<s:Transition autoReverse="true" fromState="normal" toState="disabled">
 			<s:Parallel>
 				<s:Parallel target="{textDisplay}">
 					<s:Resize duration="0"/>

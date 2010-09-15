@@ -18,7 +18,7 @@
             import mx.managers.CursorManager;
 
             //#################### VARS ####################
-            [Bindable] public var _status:StatusVO;
+            [Bindable] public var _status:CurrentStatusVO;
             [Bindable] public var _datalog:ArrayCollection;
             [Bindable] private var _settings:ConfigVO;
             private var _mode:String;
@@ -32,7 +32,7 @@
             public function get dataLog():ArrayCollection {
                 return _datalog;
             }
-            public function set status(e:StatusVO):void{
+            public function set status(e:CurrentStatusVO):void{
                 _status = e as StatusVO;
                 dispatchEvent (new Event("statusChange"));
             }

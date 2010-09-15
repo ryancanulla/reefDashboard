@@ -9,7 +9,7 @@ package com.ryancanulla.apex.model
         private var _userSettings:ConfigVO;
 
         public function ConfigurationModel(enforcer:SingletonEnforcer) {
-            //init();
+            init();
         }
 
         public static function getInstance():ConfigurationModel {
@@ -21,6 +21,7 @@ package com.ryancanulla.apex.model
 
         private function init():void {
             _userSettings = new ConfigVO;
+
             _userSettings.url = "http://admin.ryancanulla.com";
             _userSettings.port = "1234";
             _userSettings.username = "admin";

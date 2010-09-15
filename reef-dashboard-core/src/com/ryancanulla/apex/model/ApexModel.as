@@ -1,6 +1,8 @@
 package com.ryancanulla.apex.model
 {
+    import com.ryancanulla.apex.events.ApexEvent;
     import com.ryancanulla.apex.model.service.ApexService;
+    import com.ryancanulla.apex.vo.CurrentStatusVO;
 
     import flash.events.EventDispatcher;
     import flash.events.IEventDispatcher;
@@ -13,11 +15,19 @@ package com.ryancanulla.apex.model
         private static var _instance:ApexModel;
         private var _status:ArrayCollection;
         private var _logs:ArrayCollection;
+        private var _currentStatus:CurrentStatusVO;
 
-        private var service:ApexService = ApexService.getInstance();
+        private var service:ApexService;
 
         public function ApexModel(enforcer:SingletonEnforcer) {
-            service.addEventListener("statusUpdated", setStatusData);
+            service = ApexService.getInstance();
+
+            init();
+
+        }
+
+        private function init():void {
+            _currentStatus = new CurrentStatusVO;
         }
 
         public static function getInstance():ApexModel {
@@ -27,16 +37,12 @@ package com.ryancanulla.apex.model
             return ApexModel._instance;
         }
 
-        private function setStatusData():void {
-            _status = service.status;
-        }
-
-        public function get status():ArrayCollection {
-            return _status;
-        }
-
         public function get logs():ArrayCollection {
             return _logs;
+        }
+
+        public function get currentStatus():CurrentStatusVO {
+            return service.currentStatus;
         }
 
     }
